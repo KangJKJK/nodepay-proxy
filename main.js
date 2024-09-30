@@ -7,7 +7,7 @@ const logger = log4js.getLogger();
 logger.level = 'info'; // 로깅 레벨 설정
 
 // 상수
-const NP_TOKEN = $nptoken; // NP 토큰
+const NP_TOKEN = process.env.nptoken; // 환경변수에서 nptoken을 가져옴
 const PING_INTERVAL = 30000; // 30초
 const RETRIES_LIMIT = 60; // 핑 실패에 대한 전역 재시도 한도
 
