@@ -1,9 +1,9 @@
 {
   "name": "nodepay-proxy",
-  "version": "1.0.0", 
-  "type": "module", 
-  "dependencies": {
-    "node-fetch": "^3.0.0"
+  "version": "1.0.0",
+  "main": "main.js",
+  "type": "module",
+  "scripts": {
+    "start": "node main.js"
   }
 }
- 
