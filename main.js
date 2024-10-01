@@ -194,20 +194,22 @@ async function main() {
   }
 
   while (true) {
-    const [doneTask] = await Promise.race(Array.from(tasks.keys())); // 수정
-    const failedProxy = tasks.get(doneTask);
+    const doneTasks = await Promise.allSettled(Array.from(tasks.keys())); // 모든 작업이 완료될 때까지 대기
+    for (const doneTask of doneTasks) {
+      const failedProxy = tasks.get(doneTask);
 
-    if ((await doneTask) === null) {
-      logger.info(`실패한 프록시 제거 및 교체: ${failedProxy}`);
-      activeProxies = activeProxies.filter(p => p !== failedProxy);
-      const newProxy = allProxies.shift();
-      if (newProxy && isValidProxy(newProxy)) {
-        activeProxies.push(newProxy);
-        tasks.set(renderProfileInfo(newProxy), newProxy);
+      if (doneTask.status === 'rejected') {
+        logger.info(`실패한 프록시 제거 및 교체: ${failedProxy}`);
+        activeProxies = activeProxies.filter(p => p !== failedProxy);
+        const newProxy = allProxies.shift();
+        if (newProxy && isValidProxy(newProxy)) {
+          activeProxies.push(newProxy);
+          tasks.set(renderProfileInfo(newProxy), newProxy);
+        }
       }
-    }
 
-    tasks.delete(doneTask);
+      tasks.delete(doneTask); // 작업 완료 후 제거
+    }
 
     await new Promise(resolve => setTimeout(resolve, 3000)); // 다음 작업 전 3초 대기
   }
