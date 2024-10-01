@@ -14,7 +14,7 @@ const RETRIES_LIMIT = 60; // 핑 실패에 대한 전역 재시도 한도
 
 const DOMAIN_API = {
   SESSION: "https://api.nodepay.ai/api/auth/session", // 세션 API
-  PING: "https://nw2.nodepay.ai/api/network/ping" // 핑 API
+  PING: "https://nw3.nodepay.ai/api/network/ping" // 핑 API
 };
 
 const CONNECTION_STATES = {
