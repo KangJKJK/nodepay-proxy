@@ -1,3 +1,4 @@
+import fs from 'fs';
 import fetch from 'node-fetch';
 import { v4 as uuidv4 } from 'uuid';
 import log4js from 'log4js';
@@ -29,7 +30,6 @@ let accountInfo = {};
 
 // 파일에서 프록시를 로드하는 함수
 function loadProxies(proxyFile) {
-  const fs = require('fs');
   try {
     const proxies = fs.readFileSync(proxyFile, 'utf-8').split('\n').filter(Boolean);
     return proxies;
