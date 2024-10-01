@@ -27,6 +27,18 @@ let tokenInfo = NP_TOKEN;
 let browserId = null;
 let accountInfo = {};
 
+// 파일에서 프록시를 로드하는 함수
+function loadProxies(proxyFile) {
+  const fs = require('fs');
+  try {
+    const proxies = fs.readFileSync(proxyFile, 'utf-8').split('\n').filter(Boolean);
+    return proxies;
+  } catch (err) {
+    logger.error(`프록시 파일 ${proxyFile}을 읽는 도중 오류가 발생했습니다: ${err.message}`);
+    return [];
+  }
+}
+
 // 응답을 검증하는 함수
 function validResp(resp) {
   if (!resp || resp.code < 0) {
@@ -201,17 +213,11 @@ async function main() {
   }
 }
 
-// 파일에서 프록시를 로드하는 함수
-function loadProxies(proxyFile) {
-  // 파일에서 프록시 로드 구현
-  return [];
-}
-
 // SIGINT(Ctrl+C) 처리
 process.on('SIGINT', () => {
   logger.info("사용자에 의해 프로그램이 종료되었습니다.");
   process.exit();
 });
 
+// 메인 함수 호출
 main();
-
