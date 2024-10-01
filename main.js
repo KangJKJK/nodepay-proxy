@@ -2,7 +2,7 @@ import fs from 'fs';
 import fetch from 'node-fetch';
 import { v4 as uuidv4 } from 'uuid';
 import log4js from 'log4js';
-import HttpsProxyAgent from 'https-proxy-agent'; // 프록시를 사용하는 경우
+import { HttpsProxyAgent } from 'https-proxy-agent';
 
 const logger = log4js.getLogger();
 logger.level = 'info'; // 로깅 레벨 설정
@@ -194,7 +194,7 @@ async function main() {
   }
 
   while (true) {
-    const [doneTask] = await Promise.race(tasks.keys());
+    const [doneTask] = await Promise.race(Array.from(tasks.keys())); // 수정
     const failedProxy = tasks.get(doneTask);
 
     if ((await doneTask) === null) {
